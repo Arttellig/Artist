@@ -1,0 +1,156 @@
+:root {
+  --text: #f2f2f2;
+  --glow: 210, 210, 255;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 22% 20%, rgba(255, 255, 255, 0.14), transparent 36%),
+    radial-gradient(circle at 82% 14%, rgba(255, 255, 255, 0.1), transparent 34%),
+    #000;
+  color: var(--text);
+  overflow: hidden;
+}
+
+.stage {
+  text-align: center;
+  padding: 1rem 1rem 4.2rem;
+  width: min(88vw, 740px);
+}
+
+h1 {
+  margin: 0;
+  font-family: "Cinzel", serif;
+  font-size: clamp(2rem, 7vw, 5rem);
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 0 18px rgba(255, 255, 255, 0.16),
+    0 12px 36px rgba(255, 255, 255, 0.12);
+}
+
+.cover-wrap {
+  width: min(58vw, 360px);
+  margin: 1.2rem auto 0;
+  border-radius: 18px;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+  box-shadow:
+    0 0 18px rgba(var(--glow), 0.35),
+    0 0 48px rgba(var(--glow), 0.3),
+    0 0 90px rgba(var(--glow), 0.22);
+}
+
+.cover-art {
+  width: 100%;
+  display: block;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.track-title {
+  margin: 0.7rem 0 0;
+  font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.82;
+}
+
+.flip-out {
+  transform: perspective(900px) rotateY(22deg) translateX(24px) scale(0.97);
+  opacity: 0.2;
+}
+
+.flip-in {
+  animation: flipin 0.48s ease;
+}
+
+@keyframes flipin {
+  from {
+    transform: perspective(900px) rotateY(-25deg) translateX(-20px) scale(0.97);
+    opacity: 0.15;
+  }
+  to {
+    transform: perspective(900px) rotateY(0deg) translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.music-btn {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 30;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 1.85rem;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.music-btn.is-muted {
+  opacity: 0.38;
+}
+
+.socials {
+  position: fixed;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  gap: 0.8rem;
+}
+
+.socials a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 1.2rem;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.socials a:hover {
+  opacity: 1;
+}
+
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(3px);
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.gate.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.enter-btn {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.72rem 1.2rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
