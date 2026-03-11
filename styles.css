@@ -120,7 +120,7 @@ h1 {
 .spotify-cta {
   position: fixed;
   left: 50%;
-  bottom: 104px;
+  bottom: 84px;
   transform: translateX(-50%);
   z-index: 24;
   display: inline-flex;
@@ -156,31 +156,6 @@ h1 {
 
 .spotify-cta__content i {
   font-size: 1.25em;
-}
-
-.spotify-cta__waves {
-  position: absolute;
-  inset: -24px -42px;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.spotify-cta__waves span {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  border: 1px solid rgba(30, 215, 96, 0.28);
-  background:
-    radial-gradient(circle at center, rgba(30, 215, 96, 0.18), rgba(30, 215, 96, 0) 66%);
-  animation: soundWave 2s linear infinite;
-}
-
-.spotify-cta__waves span:nth-child(2) {
-  animation-delay: 0.66s;
-}
-
-.spotify-cta__waves span:nth-child(3) {
-  animation-delay: 1.32s;
 }
 
 .socials a {
@@ -238,27 +213,13 @@ h1 {
   }
 }
 
-@keyframes soundWave {
-  0% {
-    transform: scale(0.76);
-    opacity: 0.08;
-  }
-  30% {
-    opacity: 0.52;
-  }
-  100% {
-    transform: scale(1.62);
-    opacity: 0;
-  }
-}
-
 @media (max-width: 640px) {
   .stage {
     padding-bottom: 10.4rem;
   }
 
   .spotify-cta {
-    bottom: 96px;
+    bottom: 76px;
     min-width: min(82vw, 320px);
   }
 
