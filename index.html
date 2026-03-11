@@ -84,6 +84,7 @@
       let muted = true;
       let activated = false;
       const queue = [...playlist];
+      let recoveringFromError = false;
 
       function shuffle(items) {
         for (let i = items.length - 1; i > 0; i -= 1) {
@@ -140,16 +141,21 @@
         current = i;
         const item = queue[i];
         ui.title.textContent = item.title;
-        ui.audio.src = item.audio;
+        ui.audio.src = encodeURI(item.audio);
+        ui.audio.load();
         ui.coverWrap.classList.add("flip-out");
 
         const preload = new Image();
         preload.onload = () => {
-          ui.cover.src = item.cover;
+          ui.cover.src = encodeURI(item.cover);
           applyCoverColor(preload);
           animateCoverIn();
         };
-        preload.src = item.cover;
+        preload.onerror = () => {
+          ui.cover.removeAttribute("src");
+          animateCoverIn();
+        };
+        preload.src = encodeURI(item.cover);
       }
 
       async function playNextInQueue() {
@@ -160,6 +166,13 @@
       ui.audio.addEventListener("ended", () => {
         if (!activated) return;
         playNextInQueue();
+      });
+
+      ui.audio.addEventListener("error", async () => {
+        if (!activated || recoveringFromError || queue.length <= 1) return;
+        recoveringFromError = true;
+        await playNextInQueue();
+        recoveringFromError = false;
       });
 
       async function activatePlayback() {
