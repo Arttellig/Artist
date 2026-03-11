@@ -85,6 +85,7 @@
       let activated = false;
       const queue = [...playlist];
       let recoveringFromError = false;
+      let trackLoadToken = 0;
 
       function shuffle(items) {
         for (let i = items.length - 1; i > 0; i -= 1) {
@@ -138,6 +139,7 @@
       }
 
       function setTrack(i) {
+        const token = ++trackLoadToken;
         current = i;
         const item = queue[i];
         ui.title.textContent = item.title;
@@ -147,11 +149,13 @@
 
         const preload = new Image();
         preload.onload = () => {
+          if (token !== trackLoadToken) return;
           ui.cover.src = encodeURI(item.cover);
           applyCoverColor(preload);
           animateCoverIn();
         };
         preload.onerror = () => {
+          if (token !== trackLoadToken) return;
           ui.cover.removeAttribute("src");
           animateCoverIn();
         };
