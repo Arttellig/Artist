@@ -78,14 +78,18 @@
       let current = 0;
       let muted = true;
       let activated = false;
+      const queue = [...playlist];
+
+      function shuffle(items) {
+        for (let i = items.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [items[i], items[j]] = [items[j], items[i]];
+        }
+        return items;
+      }
 
       function nextIndex() {
-        if (playlist.length <= 1) return current;
-        let next = current;
-        while (next === current) {
-          next = Math.floor(Math.random() * playlist.length);
-        }
-        return next;
+        return (current + 1) % queue.length;
       }
 
       function setMute(next) {
@@ -129,7 +133,7 @@
 
       function setTrack(i) {
         current = i;
-        const item = playlist[i];
+        const item = queue[i];
         ui.title.textContent = item.title;
         ui.audio.src = item.audio;
         ui.coverWrap.classList.add("flip-out");
@@ -143,14 +147,14 @@
         preload.src = item.cover;
       }
 
-      async function playNextRandom() {
+      async function playNextInQueue() {
         setTrack(nextIndex());
         await ui.audio.play().catch(() => {});
       }
 
       ui.audio.addEventListener("ended", () => {
         if (!activated) return;
-        playNextRandom();
+        playNextInQueue();
       });
 
       async function activatePlayback() {
@@ -160,7 +164,7 @@
         }
         setMute(false);
         if (!ui.audio.paused) return;
-        await ui.audio.play().catch(playNextRandom);
+        await ui.audio.play().catch(playNextInQueue);
       }
 
       ui.enterBtn.addEventListener("click", activatePlayback);
@@ -176,7 +180,8 @@
         }
       });
 
-      setTrack(Math.floor(Math.random() * playlist.length));
+      shuffle(queue);
+      setTrack(0);
       setMute(true);
     </script>
   </body>
